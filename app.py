@@ -81,6 +81,10 @@ def init_db():
     conn.close()
 
 
+# Ensure the database exists when the module is imported by Gunicorn or Render.
+init_db()
+
+
 # ─── Auth Decorators ──────────────────────────────────────────────────────────
 def login_required(f):
     """Redirect to login if user is not authenticated."""
@@ -457,5 +461,4 @@ def slot_bookings(slot_id):
 
 # ─── Run ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    init_db()          # Create tables on first run
     app.run(debug=True)
