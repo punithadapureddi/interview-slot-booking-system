@@ -280,6 +280,10 @@ code { color: var(--accent-2); font-family: 'JetBrains Mono', monospace; font-si
   --bs-table-hover-bg: rgba(108,99,255,0.06);
   --bs-table-border-color: var(--border);
 }
+.table-custom > :not(caption) > * > * {
+  color: var(--text) !important;
+  background-color: transparent !important;
+}
 .table-custom thead th {
   font-size: 0.78rem;
   font-weight: 700;
@@ -293,6 +297,12 @@ code { color: var(--accent-2); font-family: 'JetBrains Mono', monospace; font-si
   vertical-align: middle;
   padding: 0.85rem 1rem;
   border-color: var(--border);
+}
+.table-custom tbody td,
+.table-custom tbody th,
+.table-custom thead th,
+.table-custom tfoot td {
+  color: var(--text) !important;
 }
 
 .slot-card {
