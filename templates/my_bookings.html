@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings | SlotBook{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <h1 class="page-title">My bookings</h1>
+    <p class="page-subtitle">Review your booked interview slots and cancel if required.</p>
+  </div>
+  <a href="{{ url_for('view_slots') }}" class="btn btn-primary-custom"><i class="bi bi-search me-2"></i>Browse slots</a>
+</div>
+
+{% if bookings %}
+<div class="row g-3">
+  {% for booking in bookings %}
+    <div class="col-lg-4 col-md-6">
+      <div class="booking-card">
+        <div class="booking-header">
+          <div class="company-logo-sm">{{ booking.company[:1]|upper }}</div>
+          <div>
+            <div class="slot-company">{{ booking.company }}</div>
+            <div class="slot-role">{{ booking.role }}</div>
+          </div>
+        </div>
+        <div class="slot-details">
+          <div class="slot-detail-item"><i class="bi bi-calendar3"></i>{{ booking.date }}</div>
+          <div class="slot-detail-item"><i class="bi bi-clock"></i>{{ booking.time }}</div>
+          <div class="slot-detail-item"><i class="bi bi-geo-alt"></i>{{ booking.venue }}</div>
+          <div class="slot-detail-item"><i class="bi bi-calendar2-check"></i>Booked on {{ booking.booked_at }}</div>
+        </div>
+        <form method="POST" action="{{ url_for('cancel_booking', booking_id=booking.booking_id) }}">
+          <button class="btn-cancel w-100" type="submit">Cancel booking</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <i class="bi bi-bookmark-x"></i>
+  <h5>No bookings yet</h5>
+  <p>Open the slots page and book your first interview slot.</p>
+  <a href="{{ url_for('view_slots') }}" class="btn btn-primary-custom">Browse slots</a>
+</div>
+{% endif %}
+{% endblock %}

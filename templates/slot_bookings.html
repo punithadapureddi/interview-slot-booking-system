@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Slot Bookings | SlotBook{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <h1 class="page-title">Slot bookings</h1>
+    <p class="page-subtitle">Students booked for {{ slot.company }} - {{ slot.role }}</p>
+  </div>
+  <a href="{{ url_for('admin_slots') }}" class="btn btn-outline-custom">Back to slots</a>
+</div>
+
+<div class="slot-summary-bar mb-4">
+  <div class="ssb-item"><i class="bi bi-building"></i>{{ slot.company }}</div>
+  <div class="ssb-item"><i class="bi bi-briefcase"></i>{{ slot.role }}</div>
+  <div class="ssb-item"><i class="bi bi-calendar3"></i>{{ slot.date }}</div>
+  <div class="ssb-item"><i class="bi bi-clock"></i>{{ slot.time }}</div>
+  <div class="ssb-item"><i class="bi bi-geo-alt"></i>{{ slot.venue }}</div>
+</div>
+
+{% if bookings %}
+<div class="panel">
+  <div class="table-responsive">
+    <table class="table table-custom mb-0">
+      <thead><tr><th>Student</th><th>Email</th><th>Booked at</th></tr></thead>
+      <tbody>
+        {% for booking in bookings %}
+          <tr><td>{{ booking.name }}</td><td>{{ booking.email }}</td><td>{{ booking.booked_at }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="empty-state">
+  <i class="bi bi-people"></i>
+  <h5>No bookings yet</h5>
+  <p>This slot has not been booked by any student.</p>
+</div>
+{% endif %}
+{% endblock %}

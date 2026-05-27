@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Student Dashboard | SlotBook{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <h1 class="page-title">Student Dashboard</h1>
+    <p class="page-subtitle">Track your bookings and browse upcoming interview slots.</p>
+  </div>
+  <a href="{{ url_for('view_slots') }}" class="btn btn-primary-custom"><i class="bi bi-search me-2"></i>Browse slots</a>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="stat-card stat-blue"><div class="stat-icon"><i class="bi bi-calendar2-week"></i></div><div class="stat-value">{{ total_slots }}</div><div class="stat-label">Total slots</div></div></div>
+  <div class="col-md-4"><div class="stat-card stat-green"><div class="stat-icon"><i class="bi bi-bookmark-check"></i></div><div class="stat-value">{{ my_bookings }}</div><div class="stat-label">My bookings</div></div></div>
+  <div class="col-md-4"><div class="stat-card stat-orange"><div class="stat-icon"><i class="bi bi-clock-history"></i></div><div class="stat-value">{{ upcoming_count }}</div><div class="stat-label">Upcoming bookings</div></div></div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <a href="{{ url_for('view_slots') }}" class="quick-action-card"><div class="qa-icon"><i class="bi bi-search"></i></div><div><div class="qa-title">Browse interview slots</div><div class="qa-desc">Search by company and book in one step.</div></div></a>
+  </div>
+  <div class="col-md-6">
+    <a href="{{ url_for('my_bookings') }}" class="quick-action-card"><div class="qa-icon"><i class="bi bi-journal-check"></i></div><div><div class="qa-title">Review my bookings</div><div class="qa-desc">See all confirmed slots and cancel if needed.</div></div></a>
+  </div>
+</div>
+{% endblock %}

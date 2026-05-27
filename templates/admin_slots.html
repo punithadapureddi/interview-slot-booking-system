@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Manage Slots | SlotBook{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <h1 class="page-title">Manage slots</h1>
+    <p class="page-subtitle">Add, inspect, and remove interview slots.</p>
+  </div>
+  <a href="{{ url_for('add_slot') }}" class="btn btn-primary-custom"><i class="bi bi-plus-circle me-2"></i>Add slot</a>
+</div>
+
+{% if slots %}
+<div class="panel">
+  <div class="table-responsive">
+    <table class="table table-custom mb-0">
+      <thead>
+        <tr><th>Company</th><th>Role</th><th>Date</th><th>Time</th><th>Venue</th><th>Seats</th><th>Booked</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for slot in slots %}
+        <tr>
+          <td>{{ slot.company }}</td>
+          <td>{{ slot.role }}</td>
+          <td>{{ slot.date }}</td>
+          <td>{{ slot.time }}</td>
+          <td>{{ slot.venue }}</td>
+          <td>{{ slot.total_seats }}</td>
+          <td>{{ slot.booked_count }}</td>
+          <td>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{{ url_for('slot_bookings', slot_id=slot.id) }}" class="btn btn-outline-info btn-sm">View bookings</a>
+              <form method="POST" action="{{ url_for('delete_slot', slot_id=slot.id) }}" onsubmit="return confirm('Delete this slot and its bookings?');">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="empty-state">
+  <i class="bi bi-calendar-x"></i>
+  <h5>No slots yet</h5>
+  <p>Add your first interview slot to get started.</p>
+  <a href="{{ url_for('add_slot') }}" class="btn btn-primary-custom">Add slot</a>
+</div>
+{% endif %}
+{% endblock %}

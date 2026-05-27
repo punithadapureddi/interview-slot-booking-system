@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Browse Slots | SlotBook{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <h1 class="page-title">Browse interview slots</h1>
+    <p class="page-subtitle">Search companies, check availability, and book a slot.</p>
+  </div>
+  <form class="search-bar" method="GET">
+    <i class="bi bi-search search-icon"></i>
+    <input type="text" class="search-input" name="search" value="{{ search }}" placeholder="Search by company name">
+    <button class="btn-search" type="submit">Search</button>
+    {% if search %}<a href="{{ url_for('view_slots') }}" class="btn-clear">Clear</a>{% endif %}
+  </form>
+</div>
+
+{% if search %}
+  <p class="search-result-info mb-3">Showing results for <strong>{{ search }}</strong></p>
+{% endif %}
+
+{% if slots %}
+<div class="row g-3">
+  {% for slot in slots %}
+    {% set booked = slot.booked_count or 0 %}
+    {% set remaining = slot.total_seats - booked %}
+    {% set is_full = remaining <= 0 %}
+    {% set is_mine = slot.id in my_booked_ids %}
+    <div class="col-lg-4 col-md-6">
+      <div class="slot-card {% if is_mine %}slot-booked{% elif is_full %}slot-full{% endif %}">
+        <div class="slot-header">
+          <div class="company-logo">{{ slot.company[:1]|upper }}</div>
+          <div class="flex-grow-1">
+            <div class="slot-company">{{ slot.company }}</div>
+            <div class="slot-role">{{ slot.role }}</div>
+          </div>
+          {% if is_mine %}
+            <span class="slot-badge badge-booked">Booked</span>
+          {% elif is_full %}
+            <span class="slot-badge badge-full">Full</span>
+          {% else %}
+            <span class="slot-badge badge-open">Open</span>
+          {% endif %}
+        </div>
+
+        <div class="slot-details">
+          <div class="slot-detail-item"><i class="bi bi-calendar3"></i>{{ slot.date }}</div>
+          <div class="slot-detail-item"><i class="bi bi-clock"></i>{{ slot.time }}</div>
+          <div class="slot-detail-item"><i class="bi bi-geo-alt"></i>{{ slot.venue }}</div>
+          <div class="slot-detail-item"><i class="bi bi-people"></i>{{ booked }} / {{ slot.total_seats }} booked</div>
+        </div>
+
+        <div class="seat-bar"><div class="seat-bar-fill {% if is_full %}seat-full{% elif remaining <= 1 %}seat-low{% endif %}" style="width: {{ (booked / slot.total_seats * 100) if slot.total_seats else 0 }}%"></div></div>
+
+        {% if is_mine %}
+          <button class="btn-slot-booked w-100" disabled>Already booked</button>
+        {% elif is_full %}
+          <button class="btn-slot-full w-100" disabled>Fully booked</button>
+        {% else %}
+          <form method="POST" action="{{ url_for('book_slot', slot_id=slot.id) }}">
+            <button type="submit" class="btn-slot-book w-100">Book slot</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <i class="bi bi-inboxes"></i>
+  <h5>No slots found</h5>
+  <p>Try a different company name or wait for the admin to add new slots.</p>
+</div>
+{% endif %}
+{% endblock %}

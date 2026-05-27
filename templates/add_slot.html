@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Add Slot | SlotBook{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="panel">
+      <div class="panel-header"><h5>Add interview slot</h5></div>
+      <div class="panel-body">
+        <form method="POST" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Company</label>
+            <input type="text" class="form-control form-control-custom" name="company" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Role</label>
+            <input type="text" class="form-control form-control-custom" name="role" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control form-control-custom" name="date" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Time</label>
+            <input type="time" class="form-control form-control-custom" name="time" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Venue</label>
+            <input type="text" class="form-control form-control-custom" name="venue" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Total seats</label>
+            <input type="number" min="1" value="1" class="form-control form-control-custom" name="total_seats" required>
+          </div>
+          <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary-custom">Save slot</button>
+            <a href="{{ url_for('admin_slots') }}" class="btn btn-outline-custom">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
